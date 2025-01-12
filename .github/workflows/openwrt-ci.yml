@@ -49,26 +49,26 @@ jobs:
       - name: Update feeds
         run: |
           sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
+          sudo ./scripts/feeds update -a
+          sudo ./scripts/feeds install -a
 
       - name: Compile firmware
         run: |
-          make -j$(nproc) || make -j1 V=s
+          sudo make -j$(nproc) || make -j1 V=s
           echo "======================="
           echo "Space usage:"
           echo "======================="
-          df -h
+          sudo df -h
           echo "======================="
-          du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
-          du -h --max-depth=1 ./build_dir
-          du -h --max-depth=1 ./bin
+          sudo du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
+          sudo du -h --max-depth=1 ./build_dir
+          sudo du -h --max-depth=1 ./bin
 
       - name: Prepare artifact
         run: |
-          mkdir -p ./artifact/package
-          mkdir -p ./artifact/buildinfo
-          rm -rf $(find ./bin/targets/ -type d -name "packages")
+          sudo mkdir -p ./artifact/package
+          sudo mkdir -p ./artifact/buildinfo
+          sudo rm -rf $(find ./bin/targets/ -type d -name "packages")
           cp -rf $(find ./bin/packages/ -type f -name "*.ipk") ./artifact/package/
           cp -rf $(find ./bin/targets/ -type f -name "*.buildinfo" -o -name "*.manifest") ./artifact/buildinfo/
 
